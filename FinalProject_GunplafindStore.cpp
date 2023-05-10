@@ -52,15 +52,12 @@ void RetrieveHis() {
 	cout << "\t\t\t\t\t\t\t\t    ======================================\n\n";
 }
 
-void realTime() {
+
 	// current date/time based on current system
    time_t now = time(0);
    
    // convert now to string form
    char* dt = ctime(&now);
-
-   cout << "Date and Time: " << dt << endl;
-}
 
 int ForChoice ();
 int ForQuantity();
@@ -1539,7 +1536,8 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 				myFile.open("Receipt" + receiptHolder + ".txt", ios::out ); //write into a text file
 		
 					if (myFile.is_open()) {
-							myFile << "\t\tRECEIPT #00" << receiptHold << endl;	
+							myFile << "\t\t[RECEIPT #00" << receiptHold << "]" << endl;
+							myFile << "\n\t\tDate and Time: " << dt << endl;
 							myFile << "\t\t==========================================\n";
 							myFile << "\t\t      G U N P L A F I N D  S T O R E \n"; 
 							myFile << "\t\t          The Gundam Place Store\n";
@@ -1579,7 +1577,7 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 						system("cls");
 						main();		
 				}
-				else {
+				else if (choice == "N") {
 					cout << "\n\tThank you for using the program!";				
 									}
 	
@@ -1681,7 +1679,8 @@ void TotalPriceChecker (int CartNumCont) {
 			cout << "\t>> Your change is: PHP " << cashtender - UpdatedPrice << endl;
 			cout << "\tThank you for shopping at GUNPLAFind Store.\n\n\n";
 			cout << "\n\t* Here is your receipt. *";
-			cout << "\n\n\t\tRECEIPT #00" << receiptHold << endl;				
+			cout << "\n\n\t\t[RECEIPT #00" << receiptHold << "]" << endl;
+			cout << "\n\t\tDate and Time: " << dt << endl;
 			cout << "\t\t==========================================\n";
 			cout << "\t\t      G U N P L A F I N D  S T O R E \n"; 
 			cout << "\t\t          The Gundam Place Store\n";
