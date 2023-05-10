@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <ctime>
 #include <fstream>
@@ -1548,17 +1549,17 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 								for (int x = 0 ; x <= CartNum; x++) {
 										myFile << "\t\t  " <<	CartItemQuan[x] << "\tPhp " << CartItemspriceSolo[x] << "\tPhp " << CartItemsprice[x] << "\t" << CartItems[x] << endl;
 									}
-										myFile << "\n\t\t>> Total Price: PHP " << totalPrice << endl;
+										myFile << "\n\t\t>> Total Price: PHP " << fixed << setprecision(2) << totalPrice << endl;
 											if (counterPromo == 2) {
 											myFile << "\t\t>> Promo Discount Code: N/A" << endl;
 											}
 											else if (counterPromo == 1) {
 											myFile << "\t\t>> Promo Discount Code: " << CodeDiscountValid << endl;
 											myFile << "\t\t>> Promo Discount Value: " << PromoValue << "%" << endl; 
-											myFile << "\t\t>> Updated Total Price: PHP " << UpdatedPrice << endl << endl;
+											myFile << "\t\t>> Updated Total Price: PHP " << fixed << setprecision(2) << UpdatedPrice << endl << endl;
 											}
-										myFile << "\t\t>> Cash Tender: PHP " << cashtender << endl;
-										myFile << "\t\t>> Change:      PHP " << cashtender - UpdatedPrice << endl << endl;
+										myFile << "\t\t>> Cash Tender: PHP " << fixed << setprecision(2) << cashtender << endl;
+										myFile << "\t\t>> Change:      PHP " << fixed << setprecision(2) <<  cashtender - UpdatedPrice << endl << endl;
 										myFile << "\t\t[THANK YOU FOR SHOPPING AT GUNPLAFIND STORE!] ";
 												
 							myFile.close();
@@ -1611,7 +1612,7 @@ void TotalPriceChecker (int CartNumCont) {
 	}
 	
 	
-	cout << "\n\n\t>> Total Price is: PHP " << totalPrice << endl << endl;
+	cout << "\n\n\t>> Total Price is: PHP " << fixed << setprecision(2) << totalPrice << endl << endl;
 	
 	cout << "\n\tEnter \"NONE\" if you don't have Promo Code\n";
 	
@@ -1633,7 +1634,7 @@ void TotalPriceChecker (int CartNumCont) {
 	    		PromoValue = PromoDiscount[x] * 100;
 	    		UpdatedPrice = totalPrice - (totalPrice * PromoDiscount[x]);
 	    		cout << "\n\tPromo Code Value: " << PromoDiscount[x] * 100 << "%";
-	    		cout << "\n\n\t  >> Updated Total Price: PHP " << UpdatedPrice << endl;
+	    		cout << "\n\n\t  >> Updated Total Price: PHP " << fixed << setprecision(2) << UpdatedPrice << endl;
 	    		counterPromo += 1;
 	    		CodeDiscountValid = CodeDiscount;
 	    		break;
@@ -1691,17 +1692,17 @@ void TotalPriceChecker (int CartNumCont) {
 					for (int x = 0 ; x <= CartNumCont; x++) {
 							cout << "\t\t  " <<	CartItemQuan[x] << "\tPhp " << CartItemspriceSolo[x] << "\tPhp " << CartItemsprice[x] << "\t" << CartItems[x] << endl;
 						}
-			cout << "\n\t\t>> Total Price: PHP " << totalPrice << endl;
+			cout << "\n\t\t>> Total Price: PHP " << fixed << setprecision(2) << totalPrice << endl;
 			if (counterPromo == 2) {			
 				cout << "\t\t>> Promo Discount Code: N/A" << endl;
 			}
 			else if (counterPromo == 1) {
 				cout << "\t\t>> Promo Discount Code: " << CodeDiscountValid << endl;
 				cout << "\t\t>> Promo Discount Value: " << PromoValue << "%" << endl; 
-				cout << "\t\t>> Updated Total Price: PHP " << UpdatedPrice << endl << endl;
+				cout << "\t\t>> Updated Total Price: PHP " << fixed << setprecision(2) << UpdatedPrice << endl << endl;
 			}
-			cout << "\t\t>> Cash Tender: PHP " << cashtender << endl;
-			cout << "\t\t>> Change:      PHP " << cashtender - UpdatedPrice << endl << endl;
+			cout << "\t\t>> Cash Tender: PHP " << fixed << setprecision(2) << cashtender << endl;
+			cout << "\t\t>> Change:      PHP " << fixed << setprecision(2) << cashtender - UpdatedPrice << endl << endl;
 			cout << "\t\t[THANK YOU FOR SHOPPING AT GUNPLAFIND STORE!] ";	
 			cout << "\n\n\t=====================================================================================";
 			cout << "\n\tG-----U-----N-----P-----L-----A-----F-----I-----N-----D-----S-----T-----O-----R-----E";
@@ -1723,6 +1724,9 @@ int ForQuantity() {
 	        }
 	        else if (quantityTemp >= 1000) {	
 				cout << "\t\t\t\t       Error. Maximum quantity is 999 only.\n\n";
+			}
+			else if (quantityTemp == 0) {
+				cout << "\t\t\t\t       Error. Minimum quantity is 1.\n\n";
 			}
 	        else {
 	            break; // valid input received, exit loop
