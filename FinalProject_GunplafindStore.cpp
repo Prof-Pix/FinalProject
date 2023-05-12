@@ -1,51 +1,50 @@
 #include <iostream>
-#include <iomanip>
-#include <string>
-#include <ctime>
-#include <fstream>
+#include <string> // library to use the different string features
+#include <iomanip> // library use for setting the precision of values into two decimals
+#include <ctime> // library for displaying the current time of the system
+#include <fstream> // library for opening and closing a file (was used for storing the transaction history)
 #include <limits> // for numeric limits (was used to check if the input in valid)
 using namespace std;
 
-//Reusable Headings of Each Page
-void TopPageTemplate() {   
+//Reusable Functions for the Headings of Each Page
+void TopPageTemplate() {  // for the top page
 	cout << "\t\t\t\t\t\t\t\t  ------------------------------------------\n";
 	cout << "\t\t\t\t\t\t\t\t        G U N P L A F I N D  S T O R E \n"; 
 	cout << "\t\t\t\t\t\t\t\t            The Gundam Place Store\n";
 	cout << "\t\t\t\t\t\t\t\t  ------------------------------------------\n\n";
 }
-void MasterPageTemplate() {
+void MasterPageTemplate() { // for the Master Grade Page
 	cout << "\t\t\t\t\t\t\t\t       ================================\n";
 	cout << "\t\t\t\t\t\t\t\t            M A S T E R  G R A D E \n";
 	cout << "\t\t\t\t\t\t\t\t       ================================\n\n";
 }
-void PerfectPageTemplate() {
+void PerfectPageTemplate() { // for the Perfect Grade Page
 			cout << "\t\t\t\t\t\t\t\t\t================================\n";
 			cout << "\t\t\t\t\t\t\t\t\t    P E R F E C T  G R A D E \n";
 			cout << "\t\t\t\t\t\t\t\t\t================================\n\n";
 	
 }
-void RealPageTemplate() {
+void RealPageTemplate() { // for the Real Grade Page
 			cout << "\t\t\t\t\t\t\t\t\t================================\n";
 			cout << "\t\t\t\t\t\t\t\t\t       R E A L  G R A D E \n";
 			cout << "\t\t\t\t\t\t\t\t\t================================\n\n";
 }
-void HighPageTemplate() {
+void HighPageTemplate() { // for the High Grade Page
 			cout << "\t\t\t\t\t\t\t\t\t================================\n";
 			cout << "\t\t\t\t\t\t\t\t\t       H I G H  G R A D E \n";
 			cout << "\t\t\t\t\t\t\t\t\t================================\n\n";
 }
-void REPageTemplate() {
+void REPageTemplate() { // for the RE/100 Grade Page
 			cout << "\t\t\t\t\t\t\t\t\t================================\n";
 			cout << "\t\t\t\t\t\t\t\t\t     R E / 1 0 0  G R A D E \n";
 			cout << "\t\t\t\t\t\t\t\t\t================================\n\n";
 }
-void BillingTemplate() {
+void BillingTemplate() { // for the Billing Section Page
 	cout << "\t\t\t\t\t\t\t\t       ================================\n";
 	cout << "\t\t\t\t\t\t\t\t         B I L L I N G  S E C T I O N \n";
 	cout << "\t\t\t\t\t\t\t\t       ================================\n\n";
 }
-
-void RetrieveHis() {
+void RetrieveHis() { // for the Receipt Retrieval Page
 	cout << "\t\t\t\t\t\t\t\t    ======================================\n";
 	cout << "\t\t\t\t\t\t\t\t              R E T R I E V I N G \n";
 	cout << "\t\t\t\t\t\t\t\t     T R A N S A C T I O N  H I S T O R Y \n";
@@ -54,17 +53,12 @@ void RetrieveHis() {
 }
 
 
-	// current date/time based on current system
-   time_t now = time(0);
-   
-   // convert now to string form
-   char* dt = ctime(&now);
+int ForItemCateg();  // function for asking the Item Category 
+int ForChoice (); // function for asking the user for his/her choice
+int ForQuantity(); //function for asking the quantity of his choice
+string ForAsking(); //function for asking if he still want to use the program or not
 
-int ForChoice ();
-int ForQuantity();
-string ForAsking();
-int ForItemCateg();
-void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing section
+void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing section (calculating the total order)
 
 	int choicet; // used in function ForCateg and used for the Main Menu
 	int CartNum = 0;           // variables for arrays to store the choice of customer
@@ -82,136 +76,113 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 	
 	int ItemChoice, ItemChoiceTemp1, ItemChoiceHold;	// variables used in ForChoice Function
 	string choiceAsking;	//used in ForAsking Function
-	string choiceAsk;
+	string choiceAsk;	// used for asking the choice of the user
 		
 	int receiptHold = 1;	//used for storing the receipts chronologically (numbering)
 	string receiptHolder;	// string holder for the receiptHold
 	int receiptCounter = 1; // used for numbering of the receipts
 	
-	int receiptNumber;
+	int receiptNumber;		// used for the receipt number
 	
-	string CodeDiscount;
-	string CodeDiscountValid;
-	int counterPromo;
-	float UpdatedPrice;
-	float PromoValue;
+	string CodeDiscount;  // variable used to store the promo code input of the user
+	string CodeDiscountValid; // used to check if discount code is valid
+	int counterPromo;	// counter variable for promo
+	float UpdatedPrice;  // variables for the updated price (orig price - discount)
+	float PromoValue; // holder for the promo value of discount code
 	
+	//declaration of array of Promo Codes and its Value
 	string PromoCodes[10] = {"BUILDGUNPLA", "GUNPLA2023", "MODELKIT123", "MECHAWAR10", "GUNPLAPRO20", "BUILDWITHUS", "GUNDAMFAN1" ,"MODELKITSAV", "MECHAMANIA" };
 	float PromoDiscount[10] = {0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50};
 	
  main() {
 
-	
+	//DECLARATION OF THE PRODUCTS NAMES AND ITS ORDER
 	//Start of Perfect Grade Sub-Categories
 	string PG_MobileSuit[5] = {"PG 1/60 MS-OOF Zaku II(Green)", "PG 1/60 MS-OOS Zaku II(Red)", "PG 1/60 RX-78 Gundam (PG)", "PG Unleashed RX-78-2 Gundam", "PG 1/60 Raiser Gundam"};
-	string PG_MobileSuitCode[5] = {"PG11", "PG12","PG13", "PG14","PG15"};
 	float PG_MobileSuitprice[5] = {7164.45, 7354.67, 13567.49, 14630.36, 16478.35};
 	
 	string PG_DustMemory[5] = {"PG 1/60 RX-78 Gundam GP01/Fb", "PG Strike Rouge + Skygrasper", "PG Strike Freedom Gundam", "PG RX-78/C.A. Casval's Gundam", "PG Perfect Gundam III"};
-	string PG_DustMemoryCode[5] = {"PG21", "PG22","PG23", "PG24","PG25"};
 	float PG_DustMemoryprice[5] = {10995.67, 11456.78,  12345.45, 13096.56, 14567.78};
 	
 	string PG_Gundamo[5] = {"PG Gundam Exia Led Unit", "PG GN-OOI Gundam Exia Model Kit", "PG 00 Gundam Seven Sword/G", "PG 1/60 00 Raiser", "PG 00 Gundam Seven Sword/g Inspection P-Bandai"};
-	string PG_GundamoCode[5] = {"PG31", "PG32","PG33", "PG34","PG35"};
 	float PG_Gundamoprice[5] = {9093.44, 12400.34, 12675.92, 16478.86, 21770.45};
 	
 	string PG_GundamSeed[5] = {"PG EVA-O1 Astray Test", "PG MSZ-006 Z Astray Gundam","PG Wing Gundam Zero Custom" ,"PG MBF-P02 GUNDAM ASTRAY RED FRAME", "PG 1/60 Gundam Astray Red Frame Kai"};
-	string PG_GundamSeedCode[5] = {"PG41", "PG42","PG43", "PG44","PG45"};
 	float PG_GundamSeedprice[5] = {10354.56, 11456.78, 12090.76, 12400.34, 14492.51};
 	
 	string PG_GundamUni[5] = {"PG RX-O Unicorn Gundam LED Unit", "PG Unicorn Gundam Armor Type", "PG Unicorn Heavy Gundam", "PG RX-O UNICORN Gundam", "PG Unicorn Gundam 02 Banshee Norn", };
-	string PG_GundamUniCode[5] = {"PG51", "PG52","PG53", "PG54","PG55"};
 	float PG_GundamUniprice[5] ={7825.72, 11456.56, 12678.34,  13061.72, 14329.37};
 	
 	//Start of Master Grade Sub-Categories 
 	string MG_MSV[5] = {"MG Shin Musha Gundam", "MG Musha Gundam Mk-2", "MG MSN-OOS Sinanju Stein Ver.KA", "MG FAZZ Ver.Ka" , "MG Ex-s Gundam/S Gundam" };
-	string MG_MSVCode[5] = {"MG11", "MG12","MG13", "MG14","MG15"};
 	float MG_MSVprice[5] = {3471.69, 3634.84, 4684.23, 6611.05, 7825.79};
 	
 	string MG_ZetaGundam[5] = {"MG RMS-106 Hi-Zack", "MG RX-178 Gundam Mk-II Titans Ver. 2.0", "MG AMX-004 Qubeley" , "MG MSZ-006 Zeta Gundam Ver. 2.0" , "MG Hyaku-Shiki Version 2.0"};
-	string MG_ZetaGundamCode[5] = {"MG21", "MG22","MG23", "MG24","MG25"};
 	float MG_ZetaGundamprice[5] = {2259.17, 2534.74, 2755.21, 3416.58, 4684.23 };
 	
 	string MG_MobileSuitGundam [5] = {"MG RGB-79 Ball Ver. Ka", "MG YMS-15 Gyan", "MG MS-O6J Zaku II Ver.2.O", "MG RX-78-2 Gundam(Ver. 2.0)", "MG RX-75 GunTank" };
-	string MG_MobileSuitGundamCode[5] = {"MG31", "MG32","MG33", "MG34","MG35"};
 	float MG_MobileSuitGundamprice[5] = {1923.52, 2479.63, 2534.74, 2810.32, 3581.93};
 	
 	string MG_GundamSeed [5] = {"MG Force Impulse Gundam", "MG Strike Freedom Gundam", "MG INFINITE JUSTICE GUNDAM", "MG Eclipse Gundam", "MG Destiny Gundam Extrerne Blast Mode" };
-	string MG_GundamSeedCode[5] = {"MG41", "MG42","MG43", "MG44","MG45"};
 	float MG_GundamSeedprice [5] = {3085.89, 3306.35, 3471.69, 3637.04, 4684.23};
 	
 	string MG_Gundamo[5] = {"MG GNX-603T GN-X", "MG 00 Qan[T]", "MG 00 QAN[T] Full Saber", "MG 00 Raiser", "MG Gundam Virtue"};
-	string MG_GundamoCode[5] = {"MG51", "MG52","MG53", "MG54","MG55"};
 	float MG_Gundamoprice[5] = {2424.51, 3030.78, 3802.39, 4188.19, 5235.38};
 	
 	//Start of Real Grade Sub-Categories
 	string RG_Neon[5] = {"RG Evangelion Unit-OO", "RG Evangelion Mark.06 Neon Genesis Evangelion", "RG EVANGELION UNIT-03" , "RG EVA-O IDX", "RG EVA Unit-OO DX Positron Cannon Set"};
-	string RG_NeonCode[5] = {"RG11", "RG12","RG13", "RG14","RG15"};
 	float RG_Neonprice[5] = {3030.78, 3467.34, 3756.23, 4093.45, 4230.45};
 	
 	string RG_MobileSuitGundam[5] = {"RG MS-OOS Char Zaku II", "RG #04 MS-06F Zaku II", "RG #01 RX-78-2 Gundam", "RG #34 Zeong", "RG SHOOT ZEONG SET"};
-	string RG_MobileSuitGundamCode[5] = {"RG21", "RG22","RG23", "RG24","RG25"};
 	float RG_MobileSuitGundamprice[5] = {1768.09, 1956.45, 2145.56, 3647.27, 5800.59 };
 	
 	string RG_GundamWing[5] = {"RG MS-06R-2 JOHNNY RIDDEN'S ZAW 11", "RG #28 Tallgeese EW", "RG #17 Wing Gundam Zero EW", "RG #20 Wing Gundam EW", "RG #35 Wing Gundam"};
-	string RG_GundamWingGundamCode[5] = {"RG31", "RG32","RG33", "RG34","RG35"};
 	float RG_GundamWingprice[5] = {1655.34, 1768.09, 1856.45, 1945.67, 2154.98};
 	
 	string RG_Char[5] = {"RG #31 Crossbone Gundam Xl", "RG #32 RX-93 Nu Gundam", "RG HI-NU GUNDAM", "RG #29 Sazabi Chars Counterattack", "RG RX-93 Nu Gundam Fin Funnel Effect Set"};
-	string RG_CharCode[5] = {"RG41", "RG42","RG43", "RG44","RG45"};
 	float RG_Charprice[5] = {1823.36, 3039.32, 3094.57, 3294.58, 3813.63};
 	
 	string RG_GundamUni[5] = {"RG #28 Tallgeese EW", "RG #17 Wing Gundam Zero EW", "RG #20 Wing Gundam EW", "RG #35 Wing Gundam", "RG #23 Wing GAT-X105B/FP"};
-	string RG_GundamUniCode[5] = {"RG51", "RG52","RG53", "RG54","RG55"};
 	float RG_GundamUniprice[5] = {1768.09, 1856.45, 1945.56, 2145.34, 2567.34};
 	
 	//Start of High Grade Sub-Categories
 	
 	string HG_War[5] = {"HG #225 Silver Bullet Suppressor", "HG #217 Sinanju Stein", "HG #216 UNICORN GUNDAM 03 PHENEX", "HG #227 Gundam 45 Scraper", " HG #218 Narrative Gundam (A-Packs)"};
-	string HG_WarCode[5] = {"HG11", "HG12","HG13", "HG14","HG15"};
 	float HG_Warprice[5] = {1823.36, 1933.91, 3370.92, 3481.46, 3592.55 };
 	
 	string HG_BuildDivers[5] = {"HG #21 Petit'gguy Chara'GGuy Ayame", "HG Gundam 00 Sky", "HG GM Ill Beam Master", "HG #17 Impulse Gundam Arc", "HG #18 Impulse Gundam Lancier"};
-	string HG_BuildDiversCode[5] = {"HG21", "HG22","HG23", "HG24","HG25"};
 	float HG_BuildDiversprice[5] = {552.15, 743.38, 939.59, 1050.13, 1326.48};
 	
 	string HG_BuildFighters[5] = {"HG #08 Leo NPD", "HG Sengoku Astray Gundam", "HG #16 Gundam Amazing Exia", "HG #06 Wing Gundam Fenice", "HG #13 Gundam Exia Dark Matter"};
-	string HG_BuildFightersCode[5] = {"HG31", "HG32","HG33", "HG34","HG35"};
 	float HG_BuildFightersprice[5] = {773.23, 861.78, 1068.92, 1215.94, 1492.29} ;
 	
 	string HG_GundamAge[5] = {"HG Gundam AGE-2 Dark Hound", "HG #20 Gundam Age Farsia", "HG #14 Gundam Age G-Bouncer", "HG Gundam AGE-I Glansa", "HG #27 Gundam AGE-1 Glansa"};
-	string HG_GundamAgeCode[5] = {"HG41", "HG42","HG43", "HG44","HG45"};
 	float HG_GundamAgeprice[5] = {964.46, 1075.53, 1185.54, 1406.62, 1517.16};
  	
  	string HG_GundamNarrative[5] = {"HG #222 Narrative Gundam (C Packs)", "HG #225 Silver Bullet Suppressor", "HG #217 Sinanju Stein (Narrative Version)", "HG #216 UNICORN GUNDAM 03 PHENEX", "HG #218 Narrative Gundam (A-Packs)"};
- 	string HG_GundamNarrativeCode[5] = {"HG51", "HG52","HG53", "HG54","HG55"};
  	float HG_GundamNarrativeprice[5] = {1572.43, 1682.97, 1848.78, 2235.67, 2346.21};
  	
  	//Start RE/100 Sub-Categories
  	
 	string RE_Iron[5] = {"RE Full Mechanics #041/100 Gundam Bael IBO", "RE 1/100 Gundam Barbatos Lupus Rex", "RE Full Mechanics 1/100 #02 Gundam", "RE Full Mechanics 1/100 #01 Gundam Killer Scraper" , "RE McGilliss Schwalbe Graze"};
-	string RE_IronCode[5] = {"RE11", "RE12","RE13", "RE14","RE15"};
 	float RE_Ironprice[5] = {2456.23, 2679.45, 2945.34, 3204.56, 36784.39};
 	
 	string RE_91[5] = {"RE 1/100 Gundam Names", "RE 1/100 #01 Gundam Exia", "RE Gundam 00 #031/100 GN-003 Gundam Kyrios", "RE 1/100 #02 Vigna-Gina (Mobile suit XM-07)", "RE 1/100 GUNDAM VIRTUE"};
-	string RE_91Code[5] = {"RE21", "RE22","RE23", "RE24","RE25"};
 	float RE_91price[5] = {1623.83, 1900.18, 2176.53, 2397.61, 2673.96};
 	
 	string RE_Shred[5] = {"RE 1/100 ZGMF-X42S Destiny Gundam", "RE 1/100 ZGMF-X20A Strike Freedom Gundam", "RE #08 Guncannon Detector", "RE 1/100 #15 ORB-OI Akatsuki Gundam", "RE 1/100 ZGMF-X56S/a Force Impulse Gundam"};
-	string RE_ShredCode[5] = {"RE31", "RE32","RE33", "RE34","RE35"};
 	float RE_Shredprice[5] = {1568.56, 1734.37, 1955.45, 2176.53, 2342.34}; 
 	
 	string RE_Gun[5] = {"RE 1/100 RE-02 Dragon Gundam", "RE 1/100 #02 Gundam Dynames", "RE 1/100 Gundam Exia", "RE Gundam 00 #031/100 GN-003 Gundam Kyrios", "RE 1/100 GUNDAM Piller"};
-	string RE_GunCode[5] = {"RE41", "RE42","RE43", "RE44","RE45"};
 	float RE_Gunprice[5] = {1098.21, 1208.75, 1429.83, 1595.64, 1989.72};
 	
 	string RE_Vidar[5] = {"RE Full Mechanics #041/10 Gundam Bael IBO", "RE FULL MECHANICS 1/10 Calamity Gundam", "RE 1/100 ZGMF-X20A Strike Freedom Gundam", "RE Gundam OO #031/100 GN-003 Gundam Kyrios", "RE Tank Detector"};
-	string RE_VidarCode[5] = {"RE51", "RE52","RE53", "RE54","RE55"};
 	float RE_Vidarprice[5] = {2100.26, 2210.84, 2487.15, 2597.69, 2708.23};
 	
 		
-		TopPageTemplate();
-	
+		TopPageTemplate(); //function for displaying Top Page Template
+	 
+	// Displays the Main Menu
 			cout << "\t\t\t\t\t\t\t\t\t     [1]    Perfect Grade\n";
 			cout << "\t\t\t\t\t\t\t\t\t     [2]    Master Grade\n";
 			cout << "\t\t\t\t\t\t\t\t\t     [3]    Real Grade\n ";
@@ -238,7 +209,7 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
         		}
     }
 
-	switch(choicet) {
+	switch(choicet) {	// switch case for the Item Category
 		
 		case 1:      //Perfect Grade
 			PGMain: //for goto label
@@ -247,6 +218,7 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 				TopPageTemplate();			//function for displaying Top Page Template
 				PerfectPageTemplate();		//function for displaying Perfect Page Template
 			
+			//Displays the menu for the Perfect Grade
 					cout << "\t\t\t[?]The ultimate Gundam experience! Perfect Grade kits are 1/60 in scale, as well as some of the most complex Gunpla around[?]\n\n";
 						cout << "\t\t\t\t\t\t\t\t\t   [1]      Mobile Suit Gundam\n";
 						cout << "\t\t\t\t\t\t\t\t\t   [2]      0083: Stardust Memory\n";
@@ -260,7 +232,7 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 			
 			case 1: //Mobile Suit Gundam
 			
-				system("cls");
+				system("cls"); // clears the text written in the console
 				TopPageTemplate();
 				PerfectPageTemplate;
 				
@@ -280,7 +252,7 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 							goto PGMain;
 						}
 						else if (ItemChoiceHold == 7) { //if satisfied, return to main menu (main)
-							system("cls");
+							system("cls"); // clears the text written in the console
 							main();
 						}
 							ItemChoice = ItemChoiceHold - 1; // if none of the conditions above were satisfied, continue to the price and quantity arrays
@@ -301,7 +273,7 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 			
 			case 2: //0083: Stardust Memory
 			
-				system("cls");
+				system("cls"); // clears the text written in the console
 				TopPageTemplate();
 				PerfectPageTemplate;
 				
@@ -321,7 +293,7 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 							goto PGMain;
 						}
 						else if (ItemChoiceHold == 7) { //if satisfied, return to main menu (main)
-							system("cls");
+							system("cls"); // clears the text written in the console
 							main();
 						}
 							ItemChoice = ItemChoiceHold - 1;
@@ -342,7 +314,7 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 			
 			case 3: //Gundam 00
 			
-				system("cls");
+				system("cls"); // clears the text written in the console
 				TopPageTemplate();
 				PerfectPageTemplate;
 				
@@ -362,7 +334,7 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 							goto PGMain;
 						}
 						else if (ItemChoiceHold == 7) { //if satisfied, return to main menu (main)
-							system("cls");
+							system("cls"); // clears the text written in the console
 							main();
 						}
 							ItemChoice = ItemChoiceHold - 1;
@@ -383,7 +355,7 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 			
 			case 4: //Gundam SEED Astray
 			
-				system("cls");
+				system("cls"); // clears the text written in the console
 				TopPageTemplate();
 				PerfectPageTemplate;
 				
@@ -403,7 +375,7 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 							goto PGMain;
 						}
 						else if (ItemChoiceHold == 7) { //if satisfied, return to main menu (main)
-							system("cls");
+							system("cls"); // clears the text written in the console
 							main();
 						}
 							ItemChoice = ItemChoiceHold - 1;
@@ -424,7 +396,7 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 			
 			case 5:	//Gundam Unicorn
 			
-				system("cls");
+				system("cls"); // clears the text written in the console
 				TopPageTemplate();
 				PerfectPageTemplate;
 				
@@ -444,7 +416,7 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 							goto PGMain;
 						}
 						else if (ItemChoiceHold == 7) { //if satisfied, return to main menu (main)
-							system("cls");
+							system("cls"); // clears the text written in the console
 							main();
 						}
 							ItemChoice = ItemChoiceHold - 1;
@@ -464,7 +436,7 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 			break; // end of case 5
 			
 			case 6: 
-				system("cls");
+				system("cls"); // clears the text written in the console
 				main();
 			case 7:
 				cout << "\n\n\t\t\t\t\t     Thank you for using the program!\n";
@@ -494,7 +466,7 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 				
 				case 1: //MSV
 				
-					system("cls");
+					system("cls"); // clears the text written in the console
 					TopPageTemplate();
 			 		MasterPageTemplate();
 				
@@ -514,7 +486,7 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 							goto MGMain;
 						}
 						else if (ItemChoiceHold == 7) { //if satisfied, return to main menu (main)
-							system("cls");
+							system("cls"); // clears the text written in the console
 							main();
 						}
 							ItemChoice = ItemChoiceHold - 1;
@@ -535,7 +507,7 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 					
 				case 2: // Zeta Gundam
 				
-					system("cls");
+					system("cls"); // clears the text written in the console
 					TopPageTemplate();
 			 		MasterPageTemplate();
 				
@@ -555,7 +527,7 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 							goto MGMain;
 						}
 						else if (ItemChoiceHold == 7) { //if satisfied, return to main menu (main)
-							system("cls");
+							system("cls"); // clears the text written in the console
 							main();
 						}
 							ItemChoice = ItemChoiceHold - 1;
@@ -576,7 +548,7 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 					
 				case 3: //Mobile Suit Gundam
 				
-					system("cls");
+					system("cls"); // clears the text written in the console
 					TopPageTemplate();
 			 		MasterPageTemplate();
 					
@@ -596,7 +568,7 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 							goto MGMain;
 						}
 						else if (ItemChoiceHold == 7) { //if satisfied, return to main menu (main)
-							system("cls");
+							system("cls"); // clears the text written in the console
 							main();
 						}
 							ItemChoice = ItemChoiceHold - 1;
@@ -617,7 +589,7 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 					
 				case 4: //Gundam SEED Destiny
 				
-					system("cls");
+					system("cls"); // clears the text written in the console
 					TopPageTemplate();
 			 		MasterPageTemplate();
 					
@@ -637,7 +609,7 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 							goto MGMain;
 						}
 						else if (ItemChoiceHold == 7) { //if satisfied, return to main menu (main)
-							system("cls");
+							system("cls"); // clears the text written in the console
 							main();
 						}
 							ItemChoice = ItemChoiceHold - 1;
@@ -658,7 +630,7 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 					
 				case 5: //Gundam 00
 				
-					system("cls");
+					system("cls"); // clears the text written in the console
 					TopPageTemplate();
 			 		MasterPageTemplate();
 					
@@ -678,8 +650,8 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 							goto MGMain;
 						}
 						else if (ItemChoiceHold == 7) { //if satisfied, return to main menu (main)
-							system("cls");
-							main();
+							system("cls"); // clears the text written in the console
+							main(); 
 						}
 							ItemChoice = ItemChoiceHold - 1;
 						
@@ -699,7 +671,7 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 						break;
 			
 				case 6: 
-					system("cls");
+					system("cls"); // clears the text written in the console
 					main();
 				case 7:
 					cout << "\n\n\t\t\t\t\t     Thank you for using the program!\n";
@@ -1448,26 +1420,26 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 			{
 			ReceiptMain:
 			
-				while (true) {
-					system("cls");
+				while (true) { // if the condition is satisfied, execute the block of code
+					system("cls"); // // clears the text written in the console
 					TopPageTemplate();
 					RetrieveHis();
 					cout << "\n\t[NOTE: Please enter 0 if you want to return to the main menu.]\n";
        				cout << "\n\t>> Receipt Number: ";
-					cin >> receiptNumber;
+					cin >> receiptNumber; // accepts input from user about the desired Receipt Number
 
-				        if (cin.fail()) {
+				        if (cin.fail()) {	// handles error
 				            cin.clear(); // clear error flag
 				            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // ignore invalid input
 				            cout << "\t     Invalid input. Please enter a number.\n";
 				            cout << "\n\t" << system("pause");
 				        }
-				        else if (receiptNumber == 0) {
+				        else if (receiptNumber == 0) { // invalid input if the input is 0
 				        	system("cls");
 				        	main();
 						}
 				        else {
-				        	receiptHolder = to_string(receiptNumber);
+				        	receiptHolder = to_string(receiptNumber); // converts the number into string (for retrieval purposes)
 				            break; // valid input received, exit loop
 				        }
     			}
@@ -1475,11 +1447,12 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
     			cout << "\t>> Processing your receipt....\n";	
  
 				
-    			fstream myFile;
-					myFile.open("Receipt" + receiptHolder + ".txt", ios::in ); //read a text file
-							if (myFile.is_open())	{
-								cout << "\t>> Receipt Found. \n\n";
-
+    			fstream myFile;	
+					myFile.open("Receipt" + receiptHolder + ".txt", ios::in ); //read/open a text file
+							if (myFile.is_open())	{ 	// checks if the file is already open
+								cout << "\t>> Receipt Found. \n\n"; // display if the file is open
+								
+								//copy all the content of the text file
 								string line;
 									while (!myFile.eof()) {
 	   							 	getline(myFile, line);
@@ -1487,70 +1460,71 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 									}	
 								myFile.close();
 							}
-							else if (!myFile.is_open()) {
+							else if (!myFile.is_open()) { // executed when the receipt number is invalid (receipt doesn't exist)
 								cout << "\t\t?Receipt cannot be found?." << endl;
 								cout << "\n\t" << system("pause");
-								goto ReceiptMain;
+								goto ReceiptMain; // go back to the retrieval page
 							}
 			
 			
 			}
-			
+						// block of code to ask user if he still want to retrieve more receipts
 						do{	
 							cout << "\n\n\t[NOTE: Please enter 0 if you want to retrieve more transaction history.]";
 							cout << "\n\tDo you still want to use the program? [Y/N]: ";
-							cin >> ws;
+							cin >> ws; // clears whitespace
 							getline(cin, choiceAsk);
-								if (choiceAsk == "Y") {
+								if (choiceAsk == "Y") { // if yes, go back to main()
 									system("cls");
 									main();
 								}
-								else if (choiceAsk == "N") {
+								else if (choiceAsk == "N") { // if no, end the program
 									cout <<"\n\tThank you for using the program. ";
 									exit(0);
 								}
-								else if (choiceAsk == "0") {
+								else if (choiceAsk == "0") { // retrieve more receipt
 									goto ReceiptMain;
 								}
-								else {
+								else {	// handles errors
 									cout << "\tInvalid input. Please try again.\n";
 								}
-						}while (choiceAsk != "N" && choiceAsk != "Y" && choiceAsk != "0");
+						}while (choiceAsk != "N" && choiceAsk != "Y" && choiceAsk != "0"); // repeat the loop if the input is invalid
 	
-		case 7:
+		case 7: // Exit the Progran
 			cout << "\n\n\t\t\t\t\t     Thank you for using the program!\n";
 			exit(0);
 		
 	}
 	
-	if (choiceAsking == "Y") {
-		CartNum++;
-		system("cls");
-		main();
+	if (choiceAsking == "Y") { // asks the user if he wants to add more item
+		CartNum++; // increment to the counter variable
+		system("cls"); // // clears the text written in the console
+		main(); // return to the main
 	}
-	else if (choiceAsking == "N") {	
+	else if (choiceAsking == "N") {	 // if no, save the transaction history
 		system("cls");
-		TotalPriceChecker(CartNum);
+		TotalPriceChecker(CartNum); // function used to calculate the total order
 			
-			receiptHolder = to_string(receiptHold);
-			fstream myFile;
-				myFile.open("Receipt" + receiptHolder + ".txt", ios::out ); //write into a text file
+			receiptHolder = to_string(receiptHold); // interger to string converter
+			fstream myFile; // FOR SAVING TRANSACTION
+				myFile.open("Receipt" + receiptHolder + ".txt", ios::out ); //write into a text file (creates a new file)
 		
-					if (myFile.is_open()) {
+					if (myFile.is_open()) { // save all of this details in the File for retrieval purposes
 							myFile << "\t\t[RECEIPT #00" << receiptHold << "]" << endl;
-							myFile << "\n\t\tDate and Time: " << dt << endl;
+							time_t now = time(0);
+   							char* dt = ctime(&now);
+   							myFile << "\n\t\tDate and Time: " << dt << endl;
 							myFile << "\t\t==========================================\n";
 							myFile << "\t\t      G U N P L A F I N D  S T O R E \n"; 
 							myFile << "\t\t          The Gundam Place Store\n";
-							myFile << "\t\t==========================================\n\n";
-															
+							myFile << "\t\t==========================================\n\n";							
 							myFile << "\t\t|Qty|\t|Price|\t\t|Total|\t\t|Description|\n";
 							myFile << "\n";
-								for (int x = 0 ; x <= CartNum; x++) {
+								for (int x = 0 ; x <= CartNum; x++) { // list of products, its price quantity and total
 										myFile << "\t\t  " <<	CartItemQuan[x] << "\tPhp " << CartItemspriceSolo[x] << "\tPhp " << CartItemsprice[x] << "\t" << CartItems[x] << endl;
-									}
-										myFile << "\n\t\t>> Total Price: PHP " << fixed << setprecision(2) << totalPrice << endl;
-											if (counterPromo == 2) {
+									} 
+										myFile << "\n\t\t>> Total Price: PHP " << fixed << setprecision(2) << totalPrice << endl; // for total price
+											if (counterPromo == 2) { // checks if there is a promo code entered
 											myFile << "\t\t>> Promo Discount Code: N/A" << endl;
 											}
 											else if (counterPromo == 1) {
@@ -1558,31 +1532,31 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 											myFile << "\t\t>> Promo Discount Value: " << PromoValue << "%" << endl; 
 											myFile << "\t\t>> Updated Total Price: PHP " << fixed << setprecision(2) << UpdatedPrice << endl << endl;
 											}
-										myFile << "\t\t>> Cash Tender: PHP " << fixed << setprecision(2) << cashtender << endl;
-										myFile << "\t\t>> Change:      PHP " << fixed << setprecision(2) <<  cashtender - UpdatedPrice << endl << endl;
+										myFile << "\t\t>> Cash Tender: PHP " << fixed << setprecision(2) << cashtender << endl; // cash entered in 2 decimals
+										myFile << "\t\t>> Change:      PHP " << fixed << setprecision(2) <<  cashtender - UpdatedPrice << endl << endl; // change calculated in 2 decimals
 										myFile << "\t\t[THANK YOU FOR SHOPPING AT GUNPLAFIND STORE!] ";
 												
-							myFile.close();
+							myFile.close(); // after saving, close the file
 					}
 
 		do{
 	
-			cout << "\n\n\tDo you still want to use the program to make new purchases?[Y/N]: ";
+			cout << "\n\n\tDo you still want to use the program to make new purchases?[Y/N]: "; // asks user if he still wants to create new transaction
 			cin >> ws;
 			getline(cin, choice);
 	
-				if (choice == "Y") {
+				if (choice == "Y") { // if yes, modify the couter variables 
 						CartNum = 0;
 						receiptHold += 1;
-						totalPrice = 0;
-						system("cls");
-						main();		
+						totalPrice = 0; // resets the total price
+						system("cls"); 
+						main();		// goes back to main
 				}
-				else if (choice == "N") {
+				else if (choice == "N") { // if no, end the program
 					cout << "\n\tThank you for using the program!";				
 									}
 	
-	} while (choice != "Y" && choice != "N");
+	} while (choice != "Y" && choice != "N"); // repeat the block of code if the input is invalid
 		
 	}	
 		
@@ -1590,7 +1564,7 @@ void TotalPriceChecker (int CartNumCont);		//fucntion used for the billing secti
 
 
 
-void TotalPriceChecker (int CartNumCont) {
+void TotalPriceChecker (int CartNumCont) { //fucntion used for the billing section (calculating the total order)
 	
 	
 	TopPageTemplate();
@@ -1605,18 +1579,18 @@ void TotalPriceChecker (int CartNumCont) {
 	
 	cout << "\t**********\t*******\t\t   *******\t       *************\n";
 	cout << "\t|Quantity|\t|Price|\t\t   |Total|\t       |Description|\n\n";
-	for (int x = 0 ; x <= CartNumCont; x++) {
+	for (int x = 0 ; x <= CartNumCont; x++) { // displays the product name, its price, quantity and total
 		
 		cout << "\t    " <<	CartItemQuan[x] << "\t\t Php " << CartItemspriceSolo[x] << "\t    Php " << CartItemsprice[x] << "\t\t" << CartItems[x] << endl;
 		totalPrice += CartItemsprice[x];
 	}
 	
 	
-	cout << "\n\n\t>> Total Price is: PHP " << fixed << setprecision(2) << totalPrice << endl << endl;
+	cout << "\n\n\t>> Total Price is: PHP " << fixed << setprecision(2) << totalPrice << endl << endl; // displays total price
 	
 	cout << "\n\tEnter \"NONE\" if you don't have Promo Code\n";
 	
-	do {
+	do { // asks for promo code
     cout << "\n\t>> Promo Code: ";
     getline(cin, CodeDiscount);
     
@@ -1625,43 +1599,43 @@ void TotalPriceChecker (int CartNumCont) {
     		counterPromo += 2;
 	}
     
-    else {
+    else { // if there is a promo code, calculate the updated price
     	
-	    for (int x = 0; x < 10; x++) {
+	    for (int x = 0; x < 10; x++) { 
 	    	
-	    	if (CodeDiscount == PromoCodes[x] ) {
+	    	if (CodeDiscount == PromoCodes[x] ) { // checks if the code is valid
 	    		cout << "\tPromo Code found.\n";
-	    		PromoValue = PromoDiscount[x] * 100;
-	    		UpdatedPrice = totalPrice - (totalPrice * PromoDiscount[x]);
+	    		PromoValue = PromoDiscount[x] * 100; // gets the promo code value
+	    		UpdatedPrice = totalPrice - (totalPrice * PromoDiscount[x]); // calculates the changes in total price
 	    		cout << "\n\tPromo Code Value: " << PromoDiscount[x] * 100 << "%";
-	    		cout << "\n\n\t  >> Updated Total Price: PHP " << fixed << setprecision(2) << UpdatedPrice << endl;
-	    		counterPromo += 1;
+	    		cout << "\n\n\t  >> Updated Total Price: PHP " << fixed << setprecision(2) << UpdatedPrice << endl; // displays the total price
+	    		counterPromo += 1; // modify counter variable
 	    		CodeDiscountValid = CodeDiscount;
 	    		break;
 			}
-			else {
+			else { // modify the counter variable
 				counterPromo = 0;
 			}
 			
 			}
 	}
 	
-	if (counterPromo == 0 ) {
+	if (counterPromo == 0 ) { // if 0, the promo code is invalid
 		cout << "\t     Invalid Promo Code.\n";
 	}
 	
-	} while (counterPromo == 0);
+	} while (counterPromo == 0); // repeat the code if the code is invalid
 	
-	while(true){
+	while(true){ // proceeds here after the validation of code
         cout << "\n\t>> Cash Tender: PHP ";
-        cin >> cashtender;
+        cin >> cashtender; // accepts input for the cash tender of user
 
         if (cin.fail()) {
             cin.clear(); // clear error flag
             cin.ignore(numeric_limits<streamsize>::max(), '\n'); // ignore invalid input
             cout << "\t     Invalid input. Please enter a number.\n\n";
         }
-        else if (cashtender < UpdatedPrice) {	
+        else if (cashtender < UpdatedPrice) {	// if the cash is lower than the total price
 			cout << "\t     Cash is too low. Please try again.\n\n";
 		}
         else {
@@ -1669,7 +1643,7 @@ void TotalPriceChecker (int CartNumCont) {
         }
     }
     
-	
+	// Displays all necessary value for receipt purposes, such as the cash tender, promo code, total price
     		cout << "\t>> Received: PHP " << cashtender << endl;
 	    		if (CodeDiscount == "NONE") {
 	    			cout << "\t>> Promo Discount: N/A "<< endl;
@@ -1679,9 +1653,13 @@ void TotalPriceChecker (int CartNumCont) {
 				}
 			cout << "\t>> Your change is: PHP " << cashtender - UpdatedPrice << endl;
 			cout << "\tThank you for shopping at GUNPLAFind Store.\n\n\n";
+			
+			//Diplays the receipt
 			cout << "\n\t* Here is your receipt. *";
-			cout << "\n\n\t\t[RECEIPT #00" << receiptHold << "]" << endl;
-			cout << "\n\t\tDate and Time: " << dt << endl;
+			cout << "\n\n\t\t[RECEIPT #00" << receiptHold << "]" << endl; // displays the receipt number
+			time_t now = time(0);
+  		 	char* dt = ctime(&now);
+   			cout << "\n\t\tDate and Time: " << dt << endl;
 			cout << "\t\t==========================================\n";
 			cout << "\t\t      G U N P L A F I N D  S T O R E \n"; 
 			cout << "\t\t          The Gundam Place Store\n";
@@ -1689,14 +1667,14 @@ void TotalPriceChecker (int CartNumCont) {
 							
 			cout << "\t\t|Qty|\t|Price|\t\t|Total|\t\t|Description|\n";
 			cout << "\n";
-					for (int x = 0 ; x <= CartNumCont; x++) {
+					for (int x = 0 ; x <= CartNumCont; x++) { // displays the product names and its price, quantity, and total
 							cout << "\t\t  " <<	CartItemQuan[x] << "\tPhp " << CartItemspriceSolo[x] << "\tPhp " << CartItemsprice[x] << "\t" << CartItems[x] << endl;
 						}
-			cout << "\n\t\t>> Total Price: PHP " << fixed << setprecision(2) << totalPrice << endl;
+			cout << "\n\t\t>> Total Price: PHP " << fixed << setprecision(2) << totalPrice << endl; // displays total price
 			if (counterPromo == 2) {			
-				cout << "\t\t>> Promo Discount Code: N/A" << endl;
+				cout << "\t\t>> Promo Discount Code: N/A" << endl; // display if the promo code is unavailable
 			}
-			else if (counterPromo == 1) {
+			else if (counterPromo == 1) { // displays if the code is valid
 				cout << "\t\t>> Promo Discount Code: " << CodeDiscountValid << endl;
 				cout << "\t\t>> Promo Discount Value: " << PromoValue << "%" << endl; 
 				cout << "\t\t>> Updated Total Price: PHP " << fixed << setprecision(2) << UpdatedPrice << endl << endl;
@@ -1710,12 +1688,12 @@ void TotalPriceChecker (int CartNumCont) {
 
 }
 
-int ForQuantity() {
+int ForQuantity() { // For asking quantity of order from the user
 	
 	while (true) {
 		
        	cout << "\t\t\t\t>> Item Quantity: ";
-		cin >> quantityTemp;
+		cin >> quantityTemp; // asks quantity of order from the user
 
 	        if (cin.fail()) {
 	            cin.clear(); // clear error flag
@@ -1732,10 +1710,10 @@ int ForQuantity() {
 	            break; // valid input received, exit loop
 	        }
 	}
-	return quantityTemp;			
+	return quantityTemp;	// return the amount of quantity entered by the user		
 }
 
-string ForAsking() {
+string ForAsking() { // // For asking if the user still wants to buy new item
 	
 		do {
 			cout << "\t\t\t\t    Do you want to buy another item ([Y]/[N]): ";
@@ -1744,9 +1722,9 @@ string ForAsking() {
 				
 		} while (choiceAsking != "Y" && choiceAsking != "N");
 
-			return choiceAsking;
+			return choiceAsking; // return if Y or N
 }
-int ForChoice () {
+int ForChoice () { // for asking the Item Choice from the user
 	
 	while (true) {
        	cout << "\t\t\t\t>> Item Number: ";
@@ -1764,7 +1742,7 @@ int ForChoice () {
             	break; // valid input received, exit loop
         	}	
     }
-	return ItemChoiceTemp1;	
+	return ItemChoiceTemp1;	// return the Item Choice
 }
 
 int ForItemCateg() { // function for Item Categories
@@ -1785,6 +1763,6 @@ int ForItemCateg() { // function for Item Categories
             	break; // valid input received, exit loop
        	 	}
     }
-	return choicet;
+	return choicet; // return the choice from the item category
 }
 
